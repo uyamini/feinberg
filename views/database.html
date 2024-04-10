@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Database Data</title>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Database Data</h1>
+        <div class="overflow-x-auto">
+            <table class="w-full table-auto border border-gray-200">
+                <thead style="background-color: #4E2A84;" class="text-white">
+                    <tr id="table-headers"></tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                const tableHeadersRow = document.getElementById('table-headers');
+                const tableBody = document.getElementById('table-body');
+                
+                // Create table headers
+                const headers = Object.keys(data[0]);
+                headers.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header;
+                    th.className = "px-6 py-3 bg-purple text-left text-sm font-semibold uppercase tracking-wider";
+                    tableHeadersRow.appendChild(th);
+                });
+                
+                // Populate table rows
+                data.forEach(rowData => {
+                    const row = document.createElement('tr');
+                    headers.forEach(header => {
+                        const cell = document.createElement('td');
+                        cell.textContent = rowData[header];
+                        cell.className = "border px-6 py-4 whitespace-nowrap";
+                        row.appendChild(cell);
+                    });
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching data from database:', error));
+    </script>
+</body>
+</html>
