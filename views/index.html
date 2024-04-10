@@ -1,0 +1,38 @@
+<!-- views/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Home</title>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome to the Homepage</h1>
+        <div class="flex space-x-4">
+            <button id="view-database-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                View Database Details
+            </button>
+            <button id="view-api-btn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                View API Details
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const viewDatabaseBtn = document.getElementById('view-database-btn');
+            const viewApiBtn = document.getElementById('view-api-btn');
+
+            viewDatabaseBtn.addEventListener('click', function() {
+                window.location.href = '/database';
+            });
+
+            viewApiBtn.addEventListener('click', function() {
+                window.location.href = '/api';
+            });
+        });
+    </script>
+</body>
+</html>

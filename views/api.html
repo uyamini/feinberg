@@ -1,43 +1,37 @@
-<!-- views/api.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMDB API Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>API Data</title>
 </head>
-<body>
-    <h1>OMDB API Test</h1>
-    <div id="movie-details"></div>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">API Data</h1>
+        <div id="api-data" class="bg-white shadow-md rounded px-8 py-6">
+            <!-- API data will be inserted here -->
+        </div>
+    </div>
 
     <script>
-        const API_KEY = '53aa2cd6';
-        const API_URL = 'https://www.omdbapi.com/';
-        const searchParams = new URLSearchParams({
-            apikey: API_KEY,
-            t: 'Titanic', //Example movie title
-        });
-
-        fetch(`${API_URL}?${searchParams}`)
-            .then(response => response.json())
+        fetch('/api-data')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
             .then(data => {
-                const movieDetailsDiv = document.getElementById('movie-details');
-                if (data.Response === 'True') {
-                    const { Title, Year, Genre, Director, Plot } = data;
-                    movieDetailsDiv.innerHTML = `
-                        <h2>${Title} (${Year})</h2>
-                        <p><strong>Genre:</strong> ${Genre}</p>
-                        <p><strong>Director:</strong> ${Director}</p>
-                        <p><strong>Plot:</strong> ${Plot}</p>
-                    `;
-                } else {
-                    movieDetailsDiv.innerHTML = `<p>${data.Error}</p>`;
-                }
+                const apiDataDiv = document.getElementById('api-data');
+                Object.entries(data).forEach(([key, value]) => {
+                    apiDataDiv.innerHTML += `<p><span class="font-semibold">${key}:</span> ${value}</p>`;
+                });
             })
             .catch(error => {
-                console.error('Error fetching data from OMDB API:', error);
-                const movieDetailsDiv = document.getElementById('movie-details');
-                movieDetailsDiv.innerHTML = `<p>Error fetching data from OMDB API</p>`;
+                console.error('Error fetching data from API:', error);
+                const apiDataDiv = document.getElementById('api-data');
+                apiDataDiv.innerHTML = `<p class="text-red-600">Error fetching data from API</p>`;
             });
     </script>
 </body>
